@@ -11,6 +11,7 @@ build-type:     Simple
 
 library
   exposed-modules:
+      Shortblito.Database
       Shortblito.Web.Server
       Shortblito.Web.Server.Application
       Shortblito.Web.Server.Constants
@@ -36,6 +37,9 @@ library
     , optparse-applicative
     , path
     , path-io
+    , persistent
+    , persistent-sqlite
+    , persistent-template
     , pretty-show
     , shakespeare
     , template-haskell

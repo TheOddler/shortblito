@@ -11,6 +11,8 @@
 module Shortblito.Web.Server.Foundation where
 
 import Data.Text (Text)
+import Database.Persist.Sql
+import Shortblito.Database
 import Shortblito.Web.Server.Widget
 import Text.Hamlet
 import Yesod
@@ -19,6 +21,7 @@ import Yesod.EmbeddedStatic
 data App = App
   { appLogLevel :: !LogLevel,
     appStatic :: !EmbeddedStatic,
+    appConnectionPool :: !ConnectionPool,
     appGoogleAnalyticsTracking :: !(Maybe Text),
     appGoogleSearchConsoleVerification :: !(Maybe Text)
   }
@@ -31,3 +34,9 @@ instance Yesod App where
     app <- getYesod
     pageContent <- widgetToPageContent $(widgetFile "default-body")
     withUrlRenderer $(hamletFile "templates/default-page.hamlet")
+
+instance YesodPersist App where
+  type YesodPersistBackend App = SqlBackend
+  runDB func = do
+    pool <- getsYesod appConnectionPool
+    runSqlPool func pool
