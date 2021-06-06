@@ -5,8 +5,14 @@
 module Shortblito.Web.Server.Handler.Shortener where
 
 import Data.Text (Text)
+import qualified Data.Text as T
+import qualified Network.HTTP.Types as H
 import Shortblito.Web.Server.Handler.Import
-import Yesod (redirect)
+import Yesod (redirectWith)
 
-getShortenerR :: String -> Handler Html
-getShortenerR short = defaultLayout [whamlet|<div>Hello #{short}|] -- redirect "https://duckduckgo.com/?t=ffab&q=test&ia=web"
+getShortenerR :: Text -> Handler Html
+getShortenerR short = redirectWith status url
+  where
+    url :: Text
+    url = T.append "https://duckduckgo.com/?q=" short
+    status = H.status302 -- temporarily use 302 instead of 301 for testing, otherwise your browser will cache the redirect

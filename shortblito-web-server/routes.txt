@@ -1,2 +1,2 @@
 / HomeR GET
-/#String ShortenerR GET
+/#Text ShortenerR GET

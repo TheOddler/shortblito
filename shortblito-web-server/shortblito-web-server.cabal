@@ -31,6 +31,7 @@ library
       base >=4.7 && <5
     , data-default
     , envparse
+    , http-types
     , monad-logger
     , optparse-applicative
     , path

@@ -10,6 +10,7 @@ library:
   dependencies:
   - data-default
   - envparse
+  - http-types
   - monad-logger
   - optparse-applicative
   - path
