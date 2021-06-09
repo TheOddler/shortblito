@@ -18,9 +18,9 @@ library
       Shortblito.Web.Server.Constants
       Shortblito.Web.Server.Foundation
       Shortblito.Web.Server.Handler
+      Shortblito.Web.Server.Handler.Elongator
       Shortblito.Web.Server.Handler.Home
       Shortblito.Web.Server.Handler.Import
-      Shortblito.Web.Server.Handler.Shortener
       Shortblito.Web.Server.OptParse
       Shortblito.Web.Server.Static
       Shortblito.Web.Server.Static.TH

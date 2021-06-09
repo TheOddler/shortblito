@@ -3,7 +3,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TemplateHaskell #-}
 
-module Shortblito.Web.Server.Handler.Shortener where
+module Shortblito.Web.Server.Handler.Elongator where
 
 import Database.Persist.Sql (toSqlKey)
 import Shortblito.BaseChanging
@@ -11,8 +11,8 @@ import Shortblito.Database
 import Shortblito.Web.Server.Handler.Import
 import Yesod (redirectWith)
 
-getShortenerR :: String -> Handler Html
-getShortenerR short =
+getElongatorR :: String -> Handler Html
+getElongatorR short =
   case shortToUrlId short of
     Nothing -> defaultLayout [whamlet|<div>Failed parsing key|] -- notFound
     Just key -> do
