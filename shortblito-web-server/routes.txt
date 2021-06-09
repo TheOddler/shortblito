@@ -1,2 +1,2 @@
 / HomeR GET
-/#UrlId ShortenerR GET
+/#String ShortenerR GET

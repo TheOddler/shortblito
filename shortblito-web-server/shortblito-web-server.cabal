@@ -11,6 +11,7 @@ build-type:     Simple
 
 library
   exposed-modules:
+      Shortblito.BaseChanging
       Shortblito.Database
       Shortblito.Web.Server
       Shortblito.Web.Server.Application
