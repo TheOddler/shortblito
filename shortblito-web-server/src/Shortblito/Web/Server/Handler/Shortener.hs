@@ -22,6 +22,4 @@ getShortenerR short =
         Just u -> defaultLayout [whamlet|<div>Parsed key to: #{show key}, this will redirect to: #{urlLong u}|] -- redirectWith H.status302 $ urlLong u -- temp just show the long url rather than really redirecting
 
 shortToUrlId :: String -> Maybe UrlId
-shortToUrlId short = do
-  id <- fromBaseDefault short
-  Just $ toSqlKey $ fromIntegral id
+shortToUrlId short = toSqlKey . fromIntegral <$> fromBaseDefault short
