@@ -21,7 +21,7 @@ getShortenerR :: UrlId -> Handler Html
 getShortenerR short = do
   mUrl <- runDB $ get short
   case mUrl of
-    Nothing -> notFound --redirectWith status ("https://duckduckgo.com/" :: Text)
+    Nothing -> notFound
     Just u -> redirectWith status $ urlLong u
   where
     status = H.status302 -- temporarily use 302 instead of 301 for testing, otherwise your browser will cache the redirect
