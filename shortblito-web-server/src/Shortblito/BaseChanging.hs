@@ -1,4 +1,4 @@
-module Shortblito.BaseChanging where
+module Shortblito.BaseChanging (fromBase, toBase) where
 
 import Data.List (elemIndex, genericIndex)
 import Data.Maybe (fromJust, listToMaybe)
