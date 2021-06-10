@@ -4,3 +4,6 @@ result*
 .pre-commit-config.yaml
 *.aes
 .vscode
+*.db
+*.db-shm
+*.db-wal

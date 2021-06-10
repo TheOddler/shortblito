@@ -27,7 +27,7 @@ shortblitoWebServer = do
 runShortblitoWebServer :: Settings -> IO ()
 runShortblitoWebServer Settings {..} =
   runStderrLoggingT $
-    withSqlitePool ":memory:" 1 $ \pool -> do
+    withSqlitePool "urls.db" 1 $ \pool -> do
       let app =
             App
               { appLogLevel = settingLogLevel,
@@ -38,7 +38,4 @@ runShortblitoWebServer Settings {..} =
               }
       flip runSqlPool pool $ do
         runMigration migrateTables
-        insert $ Url "https://www.pabloproductions.be/"
-        insert $ Url "https://github.com/NorfairKing/template-web-server"
-        insert $ Url "https://www.pabloproductions.be/cv"
       liftIO $ Yesod.warp settingPort app
