@@ -24,7 +24,7 @@ getShortenerR = defaultLayout $(widgetFile "home")
 
 postShortenerR :: Handler Text
 postShortenerR = do
-  lines <- rawRequestBody $$ CT.decode CT.utf8 =$ CL.consume -- Foo -- get the json body as Foo (assumes FromJSON instance)
+  lines <- runConduit $ rawRequestBody .| CT.decode CT.utf8 .| CL.consume
   case listToMaybe lines of
     Just longUrl -> do
       existingUrl <- runDB $ getBy $ UniqueLong longUrl
