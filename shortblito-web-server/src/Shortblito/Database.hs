@@ -26,11 +26,3 @@ Url
   UniqueLong long
   deriving Show
 |]
-
--- main = runSqlite ":memory:" $ runMigration migrateTables
-
--- buildDb = do
---   runMigration migrateTables
---   insert $ Url "https://www.pabloproductions.be/"
---   insert $ Url "https://github.com/NorfairKing/template-web-server"
---   insert $ Url "https://www.pabloproductions.be/cv"
