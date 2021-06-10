@@ -31,6 +31,8 @@ library
       src
   build-depends:
       base >=4.7 && <5
+    , conduit
+    , conduit-extra
     , data-default
     , envparse
     , http-types
@@ -57,7 +59,7 @@ executable shortblito-web-server
       Paths_shortblito_web_server
   hs-source-dirs:
       app
-  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  ghc-options: -Wall -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
     , shortblito-web-server

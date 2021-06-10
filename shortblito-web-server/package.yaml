@@ -8,6 +8,8 @@ dependencies:
 library:
   source-dirs: src
   dependencies:
+  - conduit
+  - conduit-extra
   - data-default
   - envparse
   - http-types
@@ -32,6 +34,7 @@ executables:
     main:                Main.hs
     source-dirs:         app
     ghc-options:
+    - -Wall
     - -threaded
     - -rtsopts
     - -with-rtsopts=-N
