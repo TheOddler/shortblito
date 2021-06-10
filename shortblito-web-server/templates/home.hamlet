@@ -1,2 +1,7 @@
 <h1>
   Shortblito
+
+<form action="/" method="POST">
+  <label for="fname">Long url:</label>
+  <input type="text" id="long" name="long"><br><br>
+  <input type="submit" formmethod="post" value="Submit">

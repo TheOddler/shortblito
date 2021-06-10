@@ -10,7 +10,7 @@ import Control.Applicative ((<$>), (<*>))
 import Data.Conduit
 import qualified Data.Conduit.List as CL
 import qualified Data.Conduit.Text as CT
-import Data.Maybe (listToMaybe)
+import Data.Maybe (fromMaybe, listToMaybe)
 import Data.Text
 import Database.Persist.Sql (fromSqlKey)
 import Shortblito.BaseChanging
@@ -26,10 +26,12 @@ postShortenerR :: Handler Text
 postShortenerR = do
   lines <- runConduit $ rawRequestBody .| CT.decode CT.utf8 .| CL.consume
   case listToMaybe lines of
-    Just longUrl -> do
-      existingUrl <- runDB $ getBy $ UniqueLong longUrl
-      key <- case existingUrl of
-        Just (Entity key _) -> pure key
-        Nothing -> do runDB $ insert Url {urlLong = longUrl}
-      pure $ pack $ show $ toBase $ fromSqlKey key
+    Just longUrlMaybeWithPrefix ->
+      let longUrl = fromMaybe longUrl $ stripPrefix "long=" longUrlMaybeWithPrefix
+       in do
+            existingUrl <- runDB $ getBy $ UniqueLong longUrl
+            key <- case existingUrl of
+              Just (Entity key _) -> pure key
+              Nothing -> do runDB $ insert Url {urlLong = longUrl}
+            pure $ pack $ show $ toBase $ fromSqlKey key
     Nothing -> invalidArgs []
