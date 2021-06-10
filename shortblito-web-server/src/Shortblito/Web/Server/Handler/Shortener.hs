@@ -34,6 +34,6 @@ postShortenerR = do
               Just (Entity key _) -> pure key
               Nothing -> do runDB $ insert Url {urlLong = longUrl}
             pure $ pack $ show $ toBase $ fromSqlKey key
-    Nothing -> invalidArgs []
+    Nothing -> invalidArgs ["long"]
 
 maybeStripPrefix prefix text = fromMaybe text $ stripPrefix prefix text
