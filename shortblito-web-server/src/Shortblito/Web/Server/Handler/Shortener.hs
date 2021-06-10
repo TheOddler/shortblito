@@ -27,7 +27,7 @@ postShortenerR = do
   lines <- runConduit $ rawRequestBody .| CT.decode CT.utf8 .| CL.consume
   case listToMaybe lines of
     Just longUrlMaybeWithPrefix ->
-      let longUrl = fromMaybe longUrl $ stripPrefix "long=" longUrlMaybeWithPrefix
+      let longUrl = maybeStripPrefix "long=" longUrlMaybeWithPrefix -- "long=" prefix will be added by forms, this allows for a very simple home page with a form to submit urls without needing other interface code
        in do
             existingUrl <- runDB $ getBy $ UniqueLong longUrl
             key <- case existingUrl of
@@ -35,3 +35,5 @@ postShortenerR = do
               Nothing -> do runDB $ insert Url {urlLong = longUrl}
             pure $ pack $ show $ toBase $ fromSqlKey key
     Nothing -> invalidArgs []
+
+maybeStripPrefix prefix text = fromMaybe text $ stripPrefix prefix text
