@@ -11,5 +11,5 @@ spec = shortblitoWebServerSpec $
       get ShortenerR
       statusIs 200
     yit "Post to shorten" $ do
-      postBody ShortenerR "test" -- "https://www.pabloproductions.be/"
+      postBody ShortenerR "https://www.pabloproductions.be/"
       statusIs 200

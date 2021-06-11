@@ -20,7 +20,7 @@ shortblitoWebServerSpec :: ShortblitoWebServerSpec -> Spec
 shortblitoWebServerSpec =
   yesodSpecWithSiteGenerator $ -- maybe use yesodSpecWithSiteGeneratorAndArgument later if needed
     runNoLoggingT $
-      withSqlitePool ":memory:" 1 $ \pool -> do
+      withSqlitePool "test.db" 1 $ \pool -> do
         let app =
               App
                 { appLogLevel = LevelWarn,
