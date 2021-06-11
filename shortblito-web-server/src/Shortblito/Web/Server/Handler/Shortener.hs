@@ -22,7 +22,7 @@ import Yesod
 getShortenerR :: Handler Html
 getShortenerR = defaultLayout $(widgetFile "home")
 
-postShortenerR :: Handler Text
+postShortenerR :: Handler Text -- TODO Use something other than Text, or make sure the Text is actually a URL.
 postShortenerR = do
   lines <- runConduit $ rawRequestBody .| CT.decode CT.utf8 .| CL.consume
   case listToMaybe lines of
