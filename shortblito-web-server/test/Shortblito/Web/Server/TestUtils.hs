@@ -29,5 +29,5 @@ shortblitoWebServerSpec =
                   appGoogleAnalyticsTracking = Nothing,
                   appGoogleSearchConsoleVerification = Nothing
                 }
-        _ <- runSqlPool (runMigrationQuiet migrateTables) pool
+        _ <- flip runSqlPool pool $ runMigrationQuiet migrateTables
         pure app

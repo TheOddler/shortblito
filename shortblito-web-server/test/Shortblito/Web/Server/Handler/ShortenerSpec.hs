@@ -7,9 +7,9 @@ import Shortblito.Web.Server.Handler.TestImport
 spec :: Spec
 spec = shortblitoWebServerSpec $
   ydescribe "ShortenerR" $ do
-    yit "Home page exists" $ do
+    yit "can show homepage" $ do
       get ShortenerR
       statusIs 200
-    yit "Post to shorten" $ do
+    yit "can shorten link" $ do
       postBody ShortenerR "https://www.pabloproductions.be/"
       statusIs 200

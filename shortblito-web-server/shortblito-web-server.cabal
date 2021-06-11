@@ -69,6 +69,7 @@ test-suite shortblito-web-server-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
+      Shortblito.Web.Server.Handler.ElongatorSpec
       Shortblito.Web.Server.Handler.ShortenerSpec
       Shortblito.Web.Server.Handler.TestImport
       Shortblito.Web.Server.TestUtils
