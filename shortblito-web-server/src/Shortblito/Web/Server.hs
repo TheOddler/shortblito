@@ -22,8 +22,6 @@ shortblitoWebServer = do
   when development $ pPrint settings
   runShortblitoWebServer settings
 
--- shortblitoWebServer = runSqlite ":memory:" $ runMigration migrateTables
-
 runShortblitoWebServer :: Settings -> IO ()
 runShortblitoWebServer Settings {..} =
   runStderrLoggingT $
