@@ -33,7 +33,7 @@ postShortenerR = do
       existingUrl <- runDB $ getBy $ UniqueLong longUrl
       key <- case existingUrl of
         Just (Entity key _) -> pure key
-        Nothing -> do runDB $ insert Url {urlLong = longUrl}
+        Nothing -> runDB $ insert Url {urlLong = longUrl}
       pure $ pack $ show $ toBase $ fromSqlKey key
     Nothing -> invalidArgs ["long"]
 
