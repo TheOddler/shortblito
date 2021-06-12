@@ -30,7 +30,7 @@ shortblitoWebServerSpec =
                   appGoogleSearchConsoleVerification = Nothing
                 }
         _ <- flip runSqlPool pool $ runMigrationQuiet migrateTables
-        _ <- flip runSqlPool pool $ purgeDb
+        _ <- runSqlPool purgeDb pool
         pure app
   where
     purgeDb = rawExecute "DELETE FROM url" []
