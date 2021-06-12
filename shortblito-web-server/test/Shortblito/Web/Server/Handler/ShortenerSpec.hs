@@ -22,3 +22,9 @@ spec = shortblitoWebServerSpec $
     yit "can report empty url with prefix" $ do
       postBody ShortenerR "long="
       statusIs 400
+    yit "can report non-url" $ do
+      postBody ShortenerR "not a real url"
+      statusIs 400
+    yit "can report non-url with prefix" $ do
+      postBody ShortenerR "long=nourl"
+      statusIs 400

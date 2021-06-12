@@ -45,6 +45,10 @@ parseUrl [] = Nothing
 parseUrl (urlMaybeWithPrefix : _) =
   let url = maybeStripPrefix "long=" urlMaybeWithPrefix
       urlDecoded = decodeUtf8 $ urlDecode False $ encodeUtf8 url
-   in if T.null urlDecoded
-        then Nothing
-        else Just urlDecoded
+   in if hasHttpPrefix urlDecoded || hasHttpsPrefix urlDecoded
+        then Just urlDecoded
+        else Nothing
+
+hasHttpPrefix = isPrefixOf "http://"
+
+hasHttpsPrefix = isPrefixOf "https://"
