@@ -7,13 +7,14 @@ import Database.Persist.Sql (toSqlKey)
 import Network.HTTP.Types (status301)
 import Shortblito.BaseChanging
 import Shortblito.Database
+import Shortblito.Web.Server.Constants
 import Shortblito.Web.Server.Handler.Import
 import Yesod (redirectWith)
 
 getElongatorR :: String -> Handler Html
 getElongatorR short =
   case shortToUrlId short of
-    Nothing -> invalidArgs ["short"] -- defaultLayout [whamlet|<div>Failed parsing key|]
+    Nothing -> invalidArgs [invalidKeyErrorMsg] -- defaultLayout [whamlet|<div>Failed parsing key|]
     Just key -> do
       mUrl <- runDB $ get key
       case mUrl of
