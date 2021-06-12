@@ -7,9 +7,6 @@ import Shortblito.Web.Server.Handler.TestImport
 spec :: Spec
 spec = shortblitoWebServerSpec $
   ydescribe "ElongatorR" $ do
-    yit "can report not found" $ do
-      get $ ElongatorR "a"
-      statusIs 404
     yit "can report invalid key" $ do
       get $ ElongatorR "$"
       statusIs 400
@@ -17,3 +14,6 @@ spec = shortblitoWebServerSpec $
       postBody ShortenerR "https://www.pabloproductions.be/"
       get $ ElongatorR "a"
       statusIs 301
+    yit "can report not found" $ do
+      get $ ElongatorR "a"
+      statusIs 404
