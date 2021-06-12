@@ -50,7 +50,7 @@ maybeStripPrefix prefix text = fromMaybe text $ T.stripPrefix prefix text
 parseUrl :: [Text] -> Result Text
 parseUrl [] = Error noBodyFoundErrorMsg
 parseUrl (urlMaybeWithPrefix : _) =
-  let url = maybeStripPrefix "long=" urlMaybeWithPrefix
+  let url = maybeStripPrefix formPrefix urlMaybeWithPrefix
       urlDecoded = decodeUtf8 $ urlDecode False $ encodeUtf8 url
    in if hasValidPrefix urlDecoded
         then Success urlDecoded

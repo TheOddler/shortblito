@@ -29,3 +29,6 @@ noBodyFoundErrorMsg = "No request body found"
 
 invalidKeyErrorMsg :: Text
 invalidKeyErrorMsg = "Invalid key"
+
+formPrefix :: Text
+formPrefix = "long="
