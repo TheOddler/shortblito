@@ -5,8 +5,8 @@ module Shortblito.Web.Server.Handler.Elongator (getElongatorR) where
 
 import Database.Persist.Sql
 import Network.HTTP.Types
-import Shortblito.BaseChanging
 import Shortblito.Database
+import Shortblito.KeyShortening
 import Shortblito.Web.Server.Constants
 import Shortblito.Web.Server.Handler.Import
 
@@ -21,4 +21,4 @@ getElongatorR short =
         Just u -> redirectWith status301 $ urlLong u -- defaultLayout [whamlet|<div>Parsed key to: #{show key}, this will redirect to: #{urlLong u}|]
 
 shortToUrlId :: Short -> Maybe UrlId
-shortToUrlId short = toSqlKey . fromIntegral <$> fromBase short
+shortToUrlId short = toSqlKey . fromIntegral <$> toDbKey short

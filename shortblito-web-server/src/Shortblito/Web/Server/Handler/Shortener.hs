@@ -16,8 +16,8 @@ import qualified Data.Text as T
 import Data.Text.Encoding
 import Database.Persist.Sql (fromSqlKey)
 import Network.HTTP.Types.URI (urlDecode)
-import Shortblito.BaseChanging
 import Shortblito.Database
+import Shortblito.KeyShortening
 import Shortblito.Web.Server.Constants
 import Shortblito.Web.Server.Handler.Import
 
@@ -37,7 +37,7 @@ postShortenerR = do
       key <- case existingUrl of
         Just (Entity key _) -> pure key
         Nothing -> runDB $ insert Url {urlLong = longUrl}
-      pure $ toBase $ fromSqlKey key -- return the base-changed key
+      pure $ toShort $ fromSqlKey key -- return the base-changed key
     Error msg -> invalidArgs [msg]
 
 maybeStripPrefix :: Text -> Text -> Text

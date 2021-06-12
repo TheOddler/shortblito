@@ -1,4 +1,4 @@
-module Shortblito.BaseChanging (Short, fromBase, toBase) where
+module Shortblito.KeyShortening (Short, toDbKey, toShort) where
 
 import Data.List (elemIndex, genericIndex)
 import Data.Maybe (fromJust, listToMaybe)
@@ -22,8 +22,8 @@ digitToInt c = fromJust $ elemIndex c digits
 intToDigit :: Int -> Char
 intToDigit = (!!) digits
 
-fromBase :: (Num i, Integral i) => Short -> Maybe i
-fromBase encoded = fst <$> (listToMaybe . readInt base validDigit digitToInt) (unpack encoded)
+toDbKey :: (Num i, Integral i) => Short -> Maybe i
+toDbKey encoded = fst <$> (listToMaybe . readInt base validDigit digitToInt) (unpack encoded)
 
-toBase :: (Integral i, Show i) => i -> Short
-toBase num = pack $ showIntAtBase base intToDigit num ""
+toShort :: (Integral i, Show i) => i -> Short
+toShort num = pack $ showIntAtBase base intToDigit num ""
