@@ -1,7 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
-module Shortblito.Web.Server.Handler.Elongator where
+module Shortblito.Web.Server.Handler.Elongator (getElongatorR) where
 
 import Database.Persist.Sql (toSqlKey)
 import Network.HTTP.Types (status301)
