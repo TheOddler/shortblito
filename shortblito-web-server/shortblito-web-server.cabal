@@ -35,6 +35,7 @@ library
     , conduit-extra
     , data-default
     , envparse
+    , file-embed
     , http-types
     , monad-logger
     , optparse-applicative

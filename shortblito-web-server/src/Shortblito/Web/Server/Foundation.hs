@@ -10,6 +10,7 @@
 
 module Shortblito.Web.Server.Foundation where
 
+import Data.FileEmbed (makeRelativeToProject)
 import Data.Text (Text)
 import Database.Persist.Sql
 import Shortblito.Database
@@ -26,14 +27,14 @@ data App = App
     appGoogleSearchConsoleVerification :: !(Maybe Text)
   }
 
-mkYesodData "App" $(parseRoutesFile "routes.txt")
+mkYesodData "App" $(makeRelativeToProject "routes.txt" >>= parseRoutesFile)
 
 instance Yesod App where
   shouldLogIO app _ ll = pure $ ll >= appLogLevel app
   defaultLayout widget = do
     app <- getYesod
     pageContent <- widgetToPageContent $(widgetFile "default-body")
-    withUrlRenderer $(hamletFile "templates/default-page.hamlet")
+    withUrlRenderer $(makeRelativeToProject "templates/default-page.hamlet" >>= hamletFile)
 
 instance YesodPersist App where
   type YesodPersistBackend App = SqlBackend
