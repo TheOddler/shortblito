@@ -34,7 +34,7 @@ postShortenerR = do
       key <- case existingUrl of
         Just (Entity key _) -> pure key
         Nothing -> runDB $ insert Url {urlLong = longUrl}
-      pure $ pack $ show $ toBase $ fromSqlKey key -- return the base-changed key
+      pure $ pack $ toBase $ fromSqlKey key -- return the base-changed key
     Nothing -> invalidArgs ["long"]
 
 maybeStripPrefix :: Text -> Text -> Text
