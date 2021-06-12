@@ -12,7 +12,9 @@ import qualified Data.Conduit.List as CL
 import qualified Data.Conduit.Text as CT
 import Data.Maybe (fromMaybe, listToMaybe)
 import Data.Text
+import Data.Text.Encoding
 import Database.Persist.Sql (fromSqlKey)
+import Network.HTTP.Types.URI (urlDecode)
 import Shortblito.BaseChanging
 import Shortblito.Database
 import Shortblito.Web.Server.Foundation
@@ -27,7 +29,7 @@ postShortenerR = do
   lines <- runConduit $ rawRequestBody .| CT.decode CT.utf8 .| CL.consume
   case listToMaybe lines of
     Just longUrlMaybeWithPrefix ->
-      let longUrl = maybeStripPrefix "long=" longUrlMaybeWithPrefix -- "long=" prefix will be added by forms, this allows for a very simple home page with a form to submit urls without needing other interface code
+      let longUrl = decodeUtf8 $ urlDecode False $ encodeUtf8 $ maybeStripPrefix "long=" longUrlMaybeWithPrefix -- "long=" prefix will be added by forms, this allows for a very simple home page with a form to submit urls without needing other interface code
        in do
             existingUrl <- runDB $ getBy $ UniqueLong longUrl
             key <- case existingUrl of
@@ -36,4 +38,5 @@ postShortenerR = do
             pure $ pack $ show $ toBase $ fromSqlKey key
     Nothing -> invalidArgs ["long"]
 
+maybeStripPrefix :: Text -> Text -> Text
 maybeStripPrefix prefix text = fromMaybe text $ stripPrefix prefix text
