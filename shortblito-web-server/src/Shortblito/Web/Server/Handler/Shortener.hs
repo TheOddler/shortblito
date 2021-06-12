@@ -25,7 +25,7 @@ import Yesod
 getShortenerR :: Handler Html
 getShortenerR = defaultLayout $(widgetFile "home")
 
-postShortenerR :: Handler Text -- TODO Use something other than Text, or make sure the Text is actually a URL.
+postShortenerR :: Handler Text
 postShortenerR = do
   lines <- runConduit $ rawRequestBody .| CT.decode CT.utf8 .| CL.consume
   case parseUrl lines of
@@ -40,6 +40,8 @@ postShortenerR = do
 maybeStripPrefix :: Text -> Text -> Text
 maybeStripPrefix prefix text = fromMaybe text $ T.stripPrefix prefix text
 
+-- | Parses the post body to an absolute url if possible.
+-- Must be url-encoded, and start with either http or https
 parseUrl :: [Text] -> Maybe Text
 parseUrl [] = Nothing
 parseUrl (urlMaybeWithPrefix : _) =
