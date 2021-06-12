@@ -13,6 +13,7 @@ module Shortblito.Web.Server.Foundation where
 import Data.FileEmbed (makeRelativeToProject)
 import Data.Text (Text)
 import Database.Persist.Sql
+import Shortblito.BaseChanging
 import Shortblito.Database
 import Shortblito.Web.Server.Widget
 import Text.Hamlet

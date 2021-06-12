@@ -28,7 +28,7 @@ data Result a
 getShortenerR :: Handler Html
 getShortenerR = defaultLayout $(widgetFile "home")
 
-postShortenerR :: Handler Text
+postShortenerR :: Handler Short
 postShortenerR = do
   lines <- runConduit $ rawRequestBody .| CT.decode CT.utf8 .| CL.consume
   case parseUrl lines of
@@ -37,7 +37,7 @@ postShortenerR = do
       key <- case existingUrl of
         Just (Entity key _) -> pure key
         Nothing -> runDB $ insert Url {urlLong = longUrl}
-      pure $ pack $ toBase $ fromSqlKey key -- return the base-changed key
+      pure $ toBase $ fromSqlKey key -- return the base-changed key
     Error msg -> invalidArgs [msg]
 
 maybeStripPrefix :: Text -> Text -> Text

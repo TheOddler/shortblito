@@ -1,2 +1,2 @@
-/#String ElongatorR GET
+/#Short ElongatorR GET
 / ShortenerR GET POST

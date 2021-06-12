@@ -1,8 +1,11 @@
-module Shortblito.BaseChanging (fromBase, toBase) where
+module Shortblito.BaseChanging (Short, fromBase, toBase) where
 
 import Data.List (elemIndex, genericIndex)
 import Data.Maybe (fromJust, listToMaybe)
+import Data.Text (Text, pack, unpack)
 import Numeric (readInt, showIntAtBase)
+
+type Short = Text
 
 digits :: [Char]
 digits = "_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-"
@@ -19,8 +22,8 @@ digitToInt c = fromJust $ elemIndex c digits
 intToDigit :: Int -> Char
 intToDigit = (!!) digits
 
-fromBase :: (Num i, Integral i) => String -> Maybe i
-fromBase encoded = fst <$> (listToMaybe . readInt base validDigit digitToInt) encoded
+fromBase :: (Num i, Integral i) => Short -> Maybe i
+fromBase encoded = fst <$> (listToMaybe . readInt base validDigit digitToInt) (unpack encoded)
 
-toBase :: (Integral i, Show i) => i -> String
-toBase num = showIntAtBase base intToDigit num ""
+toBase :: (Integral i, Show i) => i -> Short
+toBase num = pack $ showIntAtBase base intToDigit num ""
