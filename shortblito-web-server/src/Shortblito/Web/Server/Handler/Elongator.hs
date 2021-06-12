@@ -3,13 +3,12 @@
 
 module Shortblito.Web.Server.Handler.Elongator (getElongatorR) where
 
-import Database.Persist.Sql (toSqlKey)
-import Network.HTTP.Types (status301)
+import Database.Persist.Sql
+import Network.HTTP.Types
 import Shortblito.BaseChanging
 import Shortblito.Database
 import Shortblito.Web.Server.Constants
 import Shortblito.Web.Server.Handler.Import
-import Yesod (redirectWith)
 
 getElongatorR :: String -> Handler Html
 getElongatorR short =
