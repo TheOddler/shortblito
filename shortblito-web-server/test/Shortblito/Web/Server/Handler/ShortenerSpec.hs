@@ -10,6 +10,15 @@ spec = shortblitoWebServerSpec $
     yit "can show homepage" $ do
       get ShortenerR
       statusIs 200
-    yit "can shorten link" $ do
+    yit "can shorten url" $ do
       postBody ShortenerR "https://www.pabloproductions.be/"
       statusIs 200
+    yit "can shorten with prefix" $ do
+      postBody ShortenerR "long=https://duckduckgo.com/"
+      statusIs 200
+    yit "can report empty url" $ do
+      postBody ShortenerR ""
+      statusIs 400
+    yit "can report empty url with prefix" $ do
+      postBody ShortenerR "long="
+      statusIs 400

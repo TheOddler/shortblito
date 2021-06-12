@@ -4,7 +4,7 @@
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE TypeFamilies #-}
 
-module Shortblito.Web.Server.Handler.Shortener where
+module Shortblito.Web.Server.Handler.Shortener (getShortenerR, postShortenerR) where
 
 import Control.Applicative ((<$>), (<*>))
 import Data.Conduit
@@ -12,6 +12,7 @@ import qualified Data.Conduit.List as CL
 import qualified Data.Conduit.Text as CT
 import Data.Maybe (fromMaybe, listToMaybe)
 import Data.Text
+import qualified Data.Text as T
 import Data.Text.Encoding
 import Database.Persist.Sql (fromSqlKey)
 import Network.HTTP.Types.URI (urlDecode)
@@ -30,12 +31,14 @@ postShortenerR = do
   case listToMaybe lines of
     Just longUrlMaybeWithPrefix ->
       let longUrl = decodeUtf8 $ urlDecode False $ encodeUtf8 $ maybeStripPrefix "long=" longUrlMaybeWithPrefix -- "long=" prefix will be added by forms, this allows for a very simple home page with a form to submit urls without needing other interface code
-       in do
-            existingUrl <- runDB $ getBy $ UniqueLong longUrl
-            key <- case existingUrl of
-              Just (Entity key _) -> pure key
-              Nothing -> do runDB $ insert Url {urlLong = longUrl}
-            pure $ pack $ show $ toBase $ fromSqlKey key
+       in if T.null longUrl
+            then invalidArgs ["long"]
+            else do
+              existingUrl <- runDB $ getBy $ UniqueLong longUrl
+              key <- case existingUrl of
+                Just (Entity key _) -> pure key
+                Nothing -> do runDB $ insert Url {urlLong = longUrl}
+              pure $ pack $ show $ toBase $ fromSqlKey key
     Nothing -> invalidArgs ["long"]
 
 maybeStripPrefix :: Text -> Text -> Text
