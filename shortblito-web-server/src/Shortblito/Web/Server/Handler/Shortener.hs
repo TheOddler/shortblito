@@ -28,18 +28,23 @@ getShortenerR = defaultLayout $(widgetFile "home")
 postShortenerR :: Handler Text -- TODO Use something other than Text, or make sure the Text is actually a URL.
 postShortenerR = do
   lines <- runConduit $ rawRequestBody .| CT.decode CT.utf8 .| CL.consume
-  case listToMaybe lines of
-    Just longUrlMaybeWithPrefix ->
-      let longUrl = decodeUtf8 $ urlDecode False $ encodeUtf8 $ maybeStripPrefix "long=" longUrlMaybeWithPrefix -- "long=" prefix will be added by forms, this allows for a very simple home page with a form to submit urls without needing other interface code
-       in if T.null longUrl
-            then invalidArgs ["long"]
-            else do
-              existingUrl <- runDB $ getBy $ UniqueLong longUrl
-              key <- case existingUrl of
-                Just (Entity key _) -> pure key
-                Nothing -> do runDB $ insert Url {urlLong = longUrl}
-              pure $ pack $ show $ toBase $ fromSqlKey key
+  case parseUrl lines of
+    Just longUrl -> do
+      existingUrl <- runDB $ getBy $ UniqueLong longUrl
+      key <- case existingUrl of
+        Just (Entity key _) -> pure key
+        Nothing -> do runDB $ insert Url {urlLong = longUrl}
+      pure $ pack $ show $ toBase $ fromSqlKey key
     Nothing -> invalidArgs ["long"]
 
 maybeStripPrefix :: Text -> Text -> Text
-maybeStripPrefix prefix text = fromMaybe text $ stripPrefix prefix text
+maybeStripPrefix prefix text = fromMaybe text $ T.stripPrefix prefix text
+
+parseUrl :: [Text] -> Maybe Text
+parseUrl [] = Nothing
+parseUrl (urlMaybeWithPrefix : _) =
+  let url = maybeStripPrefix "long=" urlMaybeWithPrefix
+      urlDecoded = decodeUtf8 $ urlDecode False $ encodeUtf8 url
+   in if T.null urlDecoded
+        then Nothing
+        else Just urlDecoded
