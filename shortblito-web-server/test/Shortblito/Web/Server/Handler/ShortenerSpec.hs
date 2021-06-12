@@ -28,3 +28,13 @@ spec = shortblitoWebServerSpec $
     yit "can report non-url with prefix" $ do
       postBody ShortenerR "long=nourl"
       statusIs 400
+    yit "can detect duplicate shortens" $
+      let url = "https://dupli.cate/"
+          expectedKey = "a"
+       in do
+            postBody ShortenerR url
+            statusIs 200
+            bodyEquals expectedKey
+            postBody ShortenerR url
+            statusIs 200
+            bodyEquals expectedKey
