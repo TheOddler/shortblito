@@ -21,4 +21,4 @@ getElongatorR short =
         Just u -> redirectWith status301 $ urlLong u -- defaultLayout [whamlet|<div>Parsed key to: #{show key}, this will redirect to: #{urlLong u}|]
 
 shortToUrlId :: Short -> Maybe UrlId
-shortToUrlId short = toSqlKey . fromIntegral <$> toDbKey short
+shortToUrlId short = toSqlKey <$> fromShort short
