@@ -34,6 +34,5 @@ runShortblitoWebServer Settings {..} =
                 appGoogleAnalyticsTracking = settingGoogleAnalyticsTracking,
                 appGoogleSearchConsoleVerification = settingGoogleSearchConsoleVerification
               }
-      flip runSqlPool pool $ do
-        runMigration migrateTables
+      flip runSqlPool pool $ runMigration migrateTables
       liftIO $ Yesod.warp settingPort app
