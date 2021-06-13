@@ -59,6 +59,7 @@ tests:
     - monad-logger
     - persistent
     - persistent-sqlite
+    - QuickCheck
     - text
     - yesod
     - yesod-test

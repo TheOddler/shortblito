@@ -70,6 +70,7 @@ test-suite shortblito-web-server-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
+      Shortblito.KeyShorteningSpec
       Shortblito.Web.Server.Handler.ElongatorSpec
       Shortblito.Web.Server.Handler.ShortenerSpec
       Shortblito.Web.Server.Handler.TestImport
@@ -81,7 +82,8 @@ test-suite shortblito-web-server-test
   build-tool-depends:
       hspec-discover:hspec-discover
   build-depends:
-      base >=4.7 && <5
+      QuickCheck
+    , base >=4.7 && <5
     , genvalidity-hspec
     , hspec
     , monad-logger
