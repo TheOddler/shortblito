@@ -13,12 +13,12 @@ import Shortblito.Web.Server.Handler.Import
 getElongatorR :: Short -> Handler Html
 getElongatorR short =
   case shortToUrlId short of
-    Nothing -> invalidArgs [invalidKeyErrorMsg] -- defaultLayout [whamlet|<div>Failed parsing key|]
+    Nothing -> invalidArgs [invalidKeyErrorMsg]
     Just key -> do
       mUrl <- runDB $ get key
       case mUrl of
-        Nothing -> notFound -- defaultLayout [whamlet|<div>Parsed key to: #{show key}, but no long found|]
-        Just u -> redirectWith status301 $ urlLong u -- defaultLayout [whamlet|<div>Parsed key to: #{show key}, this will redirect to: #{urlLong u}|]
+        Nothing -> notFound
+        Just u -> redirectWith status301 $ urlLong u
 
 shortToUrlId :: Short -> Maybe UrlId
 shortToUrlId short = toSqlKey <$> fromShort short
