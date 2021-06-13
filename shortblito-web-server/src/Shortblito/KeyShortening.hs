@@ -25,5 +25,8 @@ intToDigit = (!!) digits
 fromShort :: (Num i, Integral i) => Short -> Maybe i
 fromShort encoded = fst <$> (listToMaybe . readInt base validDigit digitToInt) (unpack encoded)
 
+-- | Shortens a non-negative number to a short
 toShort :: (Integral i, Show i) => i -> Short
-toShort num = pack $ showIntAtBase base intToDigit num ""
+toShort num
+  | num < 0 = errorWithoutStackTrace ("KeyShortening.toShort: applied to negative number " ++ show num)
+  | otherwise = pack $ showIntAtBase base intToDigit num ""
