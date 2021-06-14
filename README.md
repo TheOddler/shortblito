@@ -63,6 +63,11 @@ However, some solutions spring to mind:
 * A new sub-domain
 * Actually saving the short to the database, and migrating the existing urls. This will however come at a performance cost.
 
+# How to run
+
+* Local dev server: run `./scripts/devel-shortblito-web-server.sh`
+* Tests: `stack test`
+
 # Thanks
 
 Thanks to Syd for allowing me to use his web-server template: https://github.com/NorfairKing/template-web-server
